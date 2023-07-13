@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<robot name="ngk_kart">
+
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size=".700 .600 .250" />
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- laser -->
+  <link name="laser">
+    <visual>
+      <origin xyz="0 0 .019425" rpy="0 0 0" />
+      <geometry>
+        <box size=".077 .077 .03885" />
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Joint connecting laser to the base -->
+  <joint name="laser_joint" type="fixed">
+    <origin xyz=".285 0 -.046" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="laser" />
+  </joint>
+
+
+
+  <!-- Rotator 1 and Wheel 1 -->
+
+  <link name="rotator_1">
+    <visual>
+      <origin xyz="0 0 -.039" rpy="0 0 0" />
+      <geometry>
+        <box size=".150 .150 .078" />
+      </geometry>
+    </visual>
+  </link>
+
+  <link name="wheel1">
+    <visual>
+      <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length=".032" radius=".075" />
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Linking everything in 1 -->
+    <joint name="rot_1_steer" type="continuous">
+    <parent link="base_link"/>
+    <child link="rotator_1"/>
+    <origin xyz=".250 -.195 -.125"/>
+    <axis xyz="0 0 1" />
+  </joint>
+
+
+  <joint name="wheel1_rotate" type="continuous">
+    <parent link="rotator_1" />
+    <child link="wheel1" />
+    <axis xyz="0 1 0" />
+    <origin xyz="0 0 -.150"/>
+  </joint> 
+
+
+
+  <!-- Rotator 2 and Wheel 2 -->
+  <link name="rotator_2">
+    <visual>
+      <origin xyz="0 0 -.039" rpy="0 0 0" />
+      <geometry>
+        <box size=".150 .150 .078" />
+      </geometry>
+    </visual>
+  </link>
+
+  <link name="wheel2">
+    <visual>
+      <origin rpy="1.57075 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length=".032" radius=".075" />
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Linking everything in 2 -->
+    <joint name="rot_2_steer" type="continuous">
+    <parent link="base_link"/>
+    <child link="rotator_2"/>
+    <origin xyz="-.250 .195 -.125"/>
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <joint name="wheel2_rotate" type="continuous">
+    <parent link="rotator_2" />
+    <child link="wheel2" />
+    <axis xyz="0 1 0" />
+    <origin xyz="0 0 -.150"/>
+  </joint>
+
+  <!-- Additional frames -->
+  <link name="odom" /> <!-- Create an "odom" frame -->
+  <link name="map" /> <!-- Create a "map" frame -->
+  <link name="base_footprint" /> <!-- Create a "base_footprint" frame -->
+
+  <joint name="base_footprint_to_base_link" type="fixed"> <!-- Connect base_footprint to base_link -->
+    <origin xyz="0 0 +0.353" rpy="0 0 0" />
+    <parent link="base_footprint" />
+    <child link="base_link" />
+  </joint>
+
+  <joint name="odom_to_map" type="fixed"> <!-- Connect odom frame to map frame -->
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="map" />
+    <child link="odom" />
+  </joint>
+
+  <joint name="base_footprint_to_odom" type="fixed"> <!-- Connect base_footprint to odom frame -->
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="odom" />
+    <child link="base_footprint" />
+  </joint>
+
+
+
+</robot>
+
